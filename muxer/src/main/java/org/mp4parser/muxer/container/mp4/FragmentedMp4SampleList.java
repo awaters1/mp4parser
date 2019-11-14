@@ -12,6 +12,7 @@ import org.mp4parser.tools.Path;
 import java.io.IOException;
 import java.lang.ref.SoftReference;
 import java.lang.reflect.Array;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.channels.WritableByteChannel;
 import java.util.*;
@@ -191,7 +192,6 @@ public class FragmentedMp4SampleList extends AbstractList<Sample> {
                             ByteBuffer bb = asByteBuffer();
                             System.err.println(bb.position() + "/" + bb.limit());
                             int a = channel.write(bb);
-                            System.err.println(a + " with " + bb.position() + "/" + bb.limit());
                         }
 
                         public long getSize() {
@@ -199,7 +199,7 @@ public class FragmentedMp4SampleList extends AbstractList<Sample> {
                         }
 
                         public ByteBuffer asByteBuffer() {
-                            return (ByteBuffer) ((ByteBuffer) finalTrunData.position(finalOffset)).slice().limit(l2i(sampleSize));
+                            return (ByteBuffer) ((Buffer)((ByteBuffer) ((Buffer)finalTrunData).position(finalOffset)).slice()).limit(l2i(sampleSize));
                         }
 
                         @Override
